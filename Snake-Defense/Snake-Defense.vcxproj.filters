@@ -19,10 +19,19 @@
     <ClCompile Include="Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects.h">
+      <Filter>Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
