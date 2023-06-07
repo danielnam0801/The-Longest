@@ -1,26 +1,24 @@
 #pragma once
 #include "define.h"
-class Snake {
-public:
-	OBJECT_TYPE type;
-	POINT currentPos;
-	POINT beforePos;
-	Snake* front;
-	void MoveNext();
-};
+namespace SNAKE {
+	class Snake {
+	public:
+		Snake();
+		OBJECT_TYPE type;
+		POINT currentPos;
+		POINT beforePos;
+		Snake* front;
+		Snake* next;
+		void MoveNext();
+		void SetType(OBJECT_TYPE);
+	};
 
-class SnakeHead : public Snake {
-public:
-	bool isCrash;
-public: 
-	SnakeHead();
-	void GetItem();
-	void CrashCheck();
-};
-
-class SnakeBody : public Snake{
-private:
-	bool isTail;
-public:
-	SnakeBody(bool isTail);
-};
+	class SnakeHead : public Snake {
+	public:
+		bool isCrash;
+	public: 
+		SnakeHead();
+		void GetItem();
+		void CrashCheck();
+	};
+}
