@@ -141,6 +141,8 @@
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Objects.cpp" />
+    <ClCompile Include="SnakeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h" />

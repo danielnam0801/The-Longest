@@ -22,6 +22,12 @@
     <ClCompile Include="Core.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Objects.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SnakeManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">

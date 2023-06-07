@@ -5,7 +5,8 @@ public:
 	OBJECT_TYPE type;
 	POINT currentPos;
 	POINT beforePos;
-	Snake* next;
+	Snake* front;
+	void MoveNext();
 };
 
 class SnakeHead : public Snake {
@@ -14,14 +15,12 @@ public:
 public: 
 	SnakeHead();
 	void GetItem();
-	void Move();
+	void CrashCheck();
 };
 
 class SnakeBody : public Snake{
 private:
 	bool isTail;
 public:
-	SnakeBody();
-	void SetPOS(int x, int y);
-
+	SnakeBody(bool isTail);
 };
