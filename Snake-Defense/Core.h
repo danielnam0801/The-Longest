@@ -1,5 +1,7 @@
 #pragma once
 #include "define.h"
+#include <conio.h>
+#include <Windows.h>
 
 class Core {
 private:
