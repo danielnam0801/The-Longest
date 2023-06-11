@@ -1,10 +1,13 @@
 #pragma once
 #include"define.h"
 #include"Objects.h"
+#include "MapManager.h"
+#include "Stage.h"
 
 class SnakeManager {
 private:
 	static SnakeManager* m_pInst;
+	Stage* currentStage;
 public:
 	static SnakeManager* GetInst()
 	{
@@ -21,5 +24,8 @@ public:
 public:
 	bool Init();
 	void CreateSnakeParts();
+	void CheckItem(POINT pos);
+	void SetRender(POINT pos, OBJECT_TYPE type);
+	void SetRotate();
 	void Run();
 };

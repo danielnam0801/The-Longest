@@ -31,6 +31,12 @@
     <ClCompile Include="console.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -46,6 +52,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="console.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
