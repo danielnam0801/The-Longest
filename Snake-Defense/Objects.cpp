@@ -38,17 +38,22 @@ void Snake::MoveNext()
 	if (type == OBJECT_TYPE::SNAKE_HEAD_UP || type == OBJECT_TYPE::SNAKE_HEAD_DOWN ||
         type == OBJECT_TYPE::SNAKE_HEAD_LEFT || type == OBJECT_TYPE::SNAKE_HEAD_RIGHT) {
         beforePos = currentPos;
+
         if (GetAsyncKeyState(VK_UP) & 0x8000) {
-            currentDir = POINT{ 0, -1 };
+            if(currentDir.y != 1)
+                currentDir = POINT{ 0, -1 };
         }
         if (GetAsyncKeyState(VK_DOWN) & 0x8000) {
-            currentDir = POINT{ 0, 1 };
+            if(currentDir.y != -1)
+                currentDir = POINT{ 0, 1 };
         }
         if (GetAsyncKeyState(VK_RIGHT) & 0x8000) {
-            currentDir = POINT{ 1, 0 };
+            if(currentDir.x != -1)
+                currentDir = POINT{ 1, 0 };
         }
         if (GetAsyncKeyState(VK_LEFT) & 0x8000) {
-            currentDir = POINT{ -1, 0 };
+            if(currentDir.x != 1)
+                currentDir = POINT{ -1, 0 };
         } 
         currentPos = POINT{ currentPos.x + currentDir.x,
                             currentPos.y + currentDir.y};
@@ -56,7 +61,7 @@ void Snake::MoveNext()
         SnakeManager::GetInst()->CheckItem(currentPos);
         SnakeManager::GetInst()->SetRotate();
         SnakeManager::GetInst()->SetRender(currentPos, type);
-        Sleep(100);
+        Sleep(150);
 	}
 	else if(type == OBJECT_TYPE::SNAKE_BODY) {
         beforePos = currentPos;

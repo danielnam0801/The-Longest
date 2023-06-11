@@ -22,15 +22,16 @@ bool SnakeManager::Init()
 
 void SnakeManager::CreateSnakeParts()
 {
-	Snake tail;
-	tail.SetType(OBJECT_TYPE::SNAKE_TAIL_UP);
-	tail.front = snakeTail; // 기존의 꼬리를 새로운 꼬리 앞으로 설정
-	tail.front->SetType(OBJECT_TYPE::SNAKE_BODY);
-	tail.next = nullptr; // 꼬리이기에 다음것은 비워둠
-	tail.currentPos = tail.front->beforePos;
-	tail.beforePos = tail.currentPos;
+	Snake* tail = new Snake;
+	snakeTail->next = tail;
+	snakeTail->SetType(OBJECT_TYPE::SNAKE_BODY);
+	tail->front = snakeTail;
 
-	snakeTail = &tail;
+	snakeTail = tail;
+ 
+	tail->currentPos = tail->front->beforePos;
+	tail->beforePos = tail->currentPos;
+	tail->next = nullptr; // 꼬리이기에 다음것은 비워둠
 }
 
 void SnakeManager::CheckItem(POINT pos)
@@ -70,7 +71,7 @@ void SnakeManager::SetRotate()
 }
 
 void SnakeManager::Run() {
-	snakeHead->MoveNext();
 
+	snakeHead->MoveNext();
 	SetRender(snakeTail->beforePos, OBJECT_TYPE::Blank);
 }

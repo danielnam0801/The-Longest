@@ -51,7 +51,7 @@ void Stage::Render()
 				std::cout << "¢º";
 			}
 			else if (m_cStage[i][j] == (char)OBJECT_TYPE::SNAKE_BODY) {
-				std::cout << "¢Á";
+				std::cout << "¡Ş";
 			}
 			else if (m_cStage[i][j] == (char)OBJECT_TYPE::SNAKE_TAIL_DOWN) {
 				std::cout << "¡ã";
