@@ -18,6 +18,7 @@ enum class OBJECT_TYPE {
 	SNAKE_TAIL_LEFT ='8',
 	SNAKE_TAIL_RIGHT = '9',
 	ITEM_APPLE = '*',
-	BG = '#',
+	Wall = '#',
+	SNAKE_DIE = '!',
 };
 

@@ -68,7 +68,7 @@ void Stage::Render()
 			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::ITEM_APPLE)) {
 				std::cout << "в╛";
 			}
-			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::BG)) {
+			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::Wall)) {
 				std::cout << "бс";
 			}
 			cout << " ";

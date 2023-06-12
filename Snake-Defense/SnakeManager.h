@@ -24,8 +24,10 @@ public:
 public:
 	bool Init();
 	void CreateSnakeParts();
-	void CheckItem(POINT pos);
 	void SetRender(POINT pos, OBJECT_TYPE type);
-	void SetRotate();
+	void SetRotate(Snake*);
+	void CheckItem(POINT pos);
+	void CheckCrash(POINT pos);
+	void DieEvent();
 	void Run();
 };
