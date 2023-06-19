@@ -12,11 +12,39 @@ void Snake::SetPos(int x, int y)
     currentPos.y = y;
 }
 
+void Snake::SetPosToBeforePos()
+{
+    currentPos = beforePos;
+    SnakeManager::GetInst()->SetRender(currentPos, type);
+    SnakeManager::GetInst()->OneTimeRender();
+    if(next != nullptr)
+      next->SetPosToBeforePos();
+}
+
 void Snake::DieEffect()
 {
+
+    if (isHead) // Head일떄
+    {
+        int maxTwinkleCnt = 10;
+        int currentTwinkleCnt = 0;
+        while (currentTwinkleCnt <= maxTwinkleCnt) {
+            type = OBJECT_TYPE::SNAKE_DIE_HEAD;
+            SnakeManager::GetInst()->SetRender(currentPos, type);
+            SnakeManager::GetInst()->OneTimeRender();
+            Sleep(130);
+            type = OBJECT_TYPE::SNAKE_DIE;
+            SnakeManager::GetInst()->SetRender(currentPos, type);
+            SnakeManager::GetInst()->OneTimeRender();
+            Sleep(130);
+        }
+    }
+
     type = OBJECT_TYPE::SNAKE_DIE;
-    Sleep(100);
-    if (next != nullptr) {
+    SnakeManager::GetInst()->SetRender(currentPos, type);
+    SnakeManager::GetInst()->OneTimeRender();
+    Sleep(130);
+    if (next != nullptr) { //꼬리일때
         next->DieEffect();
         return; // 밑에 것을 실행시켜주지 않기 위함
     }
@@ -25,19 +53,17 @@ void Snake::DieEffect()
     SnakeManager::GetInst()->DieEvent();
 }
 
-void Snake::DestroyObject()
-{
-
-}
-
 void Snake::Init(POINT pos, OBJECT_TYPE type)
 {
+    currentDir = POINT{ 0,0 };
     SetPos(pos.x, pos.y);
     SetType(type);
 }
 
 void Snake::MoveNext()
 {
+    if (SnakeManager::GetInst()->snakeActive == false) return;
+
 	if (type == OBJECT_TYPE::SNAKE_HEAD_UP || type == OBJECT_TYPE::SNAKE_HEAD_DOWN ||
         type == OBJECT_TYPE::SNAKE_HEAD_LEFT || type == OBJECT_TYPE::SNAKE_HEAD_RIGHT) {
         beforePos = currentPos;
@@ -61,12 +87,12 @@ void Snake::MoveNext()
         currentPos = POINT{ currentPos.x + currentDir.x,
                             currentPos.y + currentDir.y};
 
-        next->MoveNext();
         SnakeManager::GetInst()->CheckItem(currentPos);
         SnakeManager::GetInst()->CheckCrash(currentPos);
         SnakeManager::GetInst()->SetRotate(this); // 지금 객체를 넘겨줌
         SnakeManager::GetInst()->SetRender(currentPos, type);
         
+        next->MoveNext();
         Sleep(140);
 	}
 	else if(type == OBJECT_TYPE::SNAKE_BODY) {
@@ -74,8 +100,9 @@ void Snake::MoveNext()
         beforeDir = currentDir;
         currentPos = front->beforePos;
         currentDir = front->beforeDir;
-        next->MoveNext();
         SnakeManager::GetInst()->SetRender(currentPos, type);
+        
+        next->MoveNext();
     }
     else {
         beforePos = currentPos;

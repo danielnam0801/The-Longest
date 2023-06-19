@@ -1,4 +1,5 @@
 #include "Stage.h"
+#include "console.h"
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -11,6 +12,11 @@ Stage::Stage()
 Stage::~Stage()
 {
 
+}
+
+char Stage::GetBlock(int x, int y)
+{
+	return m_cStage[y][x];
 }
 
 void Stage::SetBlock(int x, int y, OBJECT_TYPE type)
@@ -36,7 +42,7 @@ void Stage::Render()
 	for (int i = 0; i < MAP_Y; i++) {
 		for (int j = 0; j < MAP_X; j++) {
 			if (m_cStage[i][j] == (char)OBJECT_TYPE::Blank){
-				std::cout << " ";
+				std::cout << "  ";
 			}
 			if (m_cStage[i][j] == (char)OBJECT_TYPE::SNAKE_HEAD_UP){
 				std::cout << "¡ã";
@@ -70,8 +76,18 @@ void Stage::Render()
 			}
 			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::Wall)) {
 				std::cout << "¡á";
+			}else if (m_cStage[i][j] == (char)(OBJECT_TYPE::BreakWall)) {
+				std::cout << "¢Ì";
 			}
-			cout << " ";
+			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::SNAKE_DIE)) {\
+				SetColor((int)COLOR::LIGHT_RED, (int)COLOR::BLACK);
+				std::cout << "¡Ù";
+			}else if (m_cStage[i][j] == (char)(OBJECT_TYPE::SNAKE_DIE_HEAD)) {\
+				SetColor((int)COLOR::LIGHT_RED, (int)COLOR::BLACK);
+				std::cout << "¡Ù";
+			}
+
+			SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
 		}
 		cout << "\n";
 	}

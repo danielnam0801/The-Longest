@@ -9,7 +9,7 @@ public:
 private:
 	char m_cStage[MAP_Y][MAP_X];
 public:
-	char GetBlock(int x, int y) { return m_cStage[y][x]; }
+	char GetBlock(int x, int y);
 	void SetBlock(int x, int y, OBJECT_TYPE type);
 public:
 	bool Init(char* pFileName); // 초기화. -> 파일을 불러올거야. 

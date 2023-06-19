@@ -2,6 +2,7 @@
 #include "define.h"
 class Snake {
 public:
+	bool isHead = false;
 	OBJECT_TYPE type;
 	POINT currentDir;
 	POINT beforeDir;
@@ -14,6 +15,6 @@ public:
 	void MoveNext();
 	void SetType(OBJECT_TYPE);
 	void SetPos(int x, int y);
+	void SetPosToBeforePos();
 	void DieEffect();
-	void DestroyObject();
 };

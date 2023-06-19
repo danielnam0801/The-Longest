@@ -5,15 +5,19 @@ SnakeManager* SnakeManager::m_pInst = nullptr;
 bool SnakeManager::Init()
 {	
 	if (MapManager::GetInst() == nullptr) return false;
+	
+	snakeActive = true;
 	currentStage = MapManager::GetInst()->GetStage();
 	
-	this->snakeHead = new SnakeHead;
+	this->snakeHead = new Snake;
+	snakeHead->isHead = true;
 	POINT headStartPoint = POINT{10,10};
 	snakeHead->Init(headStartPoint, OBJECT_TYPE::SNAKE_HEAD_UP);
 
 	this->snakeTail = new Snake;
 	POINT tailStartPoint = POINT{11,10};
 	snakeTail->Init(tailStartPoint, OBJECT_TYPE::SNAKE_TAIL_UP);
+	snakeTail->next = nullptr;
 
 	this->snakeHead->next = snakeTail;
 	this->snakeTail->front = snakeHead;
@@ -87,12 +91,38 @@ void SnakeManager::CheckCrash(POINT pos)
 	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::Wall) {
 		
 		//게임 종료
+		snakeActive = false;
+		SetRender(snakeHead->currentPos, OBJECT_TYPE::BreakWall);
+		OneTimeRender();
+
+		//shakeHead만 한칸 미루기
+		snakeHead->currentPos = snakeHead->beforePos;
+		snakeHead->beforePos = snakeHead->next->currentPos;
+		SnakeManager::GetInst()->SetRender(snakeHead->currentPos, OBJECT_TYPE::Blank);
+
+		snakeHead->SetPosToBeforePos();
 		snakeHead->DieEffect();
 	}
 }
 
 void SnakeManager::DieEvent()
 {
+	Sleep(10000);
+}
+
+void SnakeManager::DeleteALL()
+{
+	while (snakeHead != NULL) {
+		Snake* delTemp = snakeHead;
+		snakeHead = delTemp->next;
+		delete delTemp;
+	}
+}
+
+void SnakeManager::OneTimeRender()
+{
+	system("cls");
+	currentStage->Render();
 }
 
 void SnakeManager::Run() {

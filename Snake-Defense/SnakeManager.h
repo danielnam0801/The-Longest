@@ -21,6 +21,7 @@ public:
 public:
 	Snake* snakeHead;
 	Snake* snakeTail;
+	bool snakeActive;
 public:
 	bool Init();
 	void CreateSnakeParts();
@@ -29,5 +30,7 @@ public:
 	void CheckItem(POINT pos);
 	void CheckCrash(POINT pos);
 	void DieEvent();
+	void DeleteALL();
+	void OneTimeRender();
 	void Run();
 };
