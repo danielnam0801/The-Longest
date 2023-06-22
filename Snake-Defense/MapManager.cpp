@@ -33,11 +33,8 @@ bool MapManager::Init()
 void MapManager::Run(int _iCurStage)
 {
 	m_iCurStage = _iCurStage;
-	while (true)
-	{
-		//	system("cls");
-		Gotoxy(0, 0);
-		SnakeManager::GetInst()->Run();
-		m_pStage[_iCurStage]->Render();
-	}
+
+	Gotoxy(0, 0);	
+	SnakeManager::GetInst()->Run();
+	m_pStage[_iCurStage]->Render();
 }

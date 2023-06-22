@@ -81,7 +81,7 @@ void Stage::Render()
 			}
 			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::SNAKE_DIE)) {\
 				SetColor((int)COLOR::LIGHT_RED, (int)COLOR::BLACK);
-				std::cout << "¡Ù";
+				std::cout << "¡Ú";
 			}else if (m_cStage[i][j] == (char)(OBJECT_TYPE::SNAKE_DIE_HEAD)) {\
 				SetColor((int)COLOR::LIGHT_RED, (int)COLOR::BLACK);
 				std::cout << "¡Ù";

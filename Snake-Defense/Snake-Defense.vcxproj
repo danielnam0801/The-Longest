@@ -145,15 +145,17 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Objects.cpp" />
     <ClCompile Include="SnakeManager.cpp" />
+    <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="define.h" />
+    <ClInclude Include="SnakeManager.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Objects.h" />
-    <ClInclude Include="SnakeManager.h" />
+    <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="Stage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

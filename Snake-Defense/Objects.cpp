@@ -23,27 +23,27 @@ void Snake::SetPosToBeforePos()
 
 void Snake::DieEffect()
 {
-
     if (isHead) // Head일떄
     {
-        int maxTwinkleCnt = 10;
+        int maxTwinkleCnt = 5;
         int currentTwinkleCnt = 0;
         while (currentTwinkleCnt <= maxTwinkleCnt) {
+            Sleep(30);
             type = OBJECT_TYPE::SNAKE_DIE_HEAD;
             SnakeManager::GetInst()->SetRender(currentPos, type);
             SnakeManager::GetInst()->OneTimeRender();
-            Sleep(130);
+            Sleep(30);
             type = OBJECT_TYPE::SNAKE_DIE;
             SnakeManager::GetInst()->SetRender(currentPos, type);
             SnakeManager::GetInst()->OneTimeRender();
-            Sleep(130);
+            currentTwinkleCnt++;
         }
     }
 
     type = OBJECT_TYPE::SNAKE_DIE;
     SnakeManager::GetInst()->SetRender(currentPos, type);
     SnakeManager::GetInst()->OneTimeRender();
-    Sleep(130);
+    Sleep(70);
     if (next != nullptr) { //꼬리일때
         next->DieEffect();
         return; // 밑에 것을 실행시켜주지 않기 위함
@@ -53,9 +53,9 @@ void Snake::DieEffect()
     SnakeManager::GetInst()->DieEvent();
 }
 
-void Snake::Init(POINT pos, OBJECT_TYPE type)
+void Snake::Init(POS pos, OBJECT_TYPE type)
 {
-    currentDir = POINT{ 0,0 };
+    currentDir = POS{ 0,0 };
     SetPos(pos.x, pos.y);
     SetType(type);
 }
@@ -70,21 +70,21 @@ void Snake::MoveNext()
         beforeDir = currentDir;
         if (GetAsyncKeyState(VK_UP)) {
             if(currentDir.y != 1)
-                currentDir = POINT{ 0, -1 };
+                currentDir = POS{ 0, -1 };
         }
         if (GetAsyncKeyState(VK_DOWN)) {
             if(currentDir.y != -1)
-                currentDir = POINT{ 0, 1 };
+                currentDir = POS{ 0, 1 };
         }
         if (GetAsyncKeyState(VK_RIGHT)) {
             if(currentDir.x != -1)
-                currentDir = POINT{ 1, 0 };
+                currentDir = POS{ 1, 0 };
         }
         if (GetAsyncKeyState(VK_LEFT)) {
             if(currentDir.x != 1)
-                currentDir = POINT{ -1, 0 };
+                currentDir = POS{ -1, 0 };
         } 
-        currentPos = POINT{ currentPos.x + currentDir.x,
+        currentPos = POS{ currentPos.x + currentDir.x,
                             currentPos.y + currentDir.y};
 
         SnakeManager::GetInst()->CheckItem(currentPos);
@@ -117,4 +117,39 @@ void Snake::MoveNext()
     
 }
 
+void _movingWall::SpawnInit()
+{
+    isEnd = false;
+    canChangeDir = false;
+    currentSpawnPoint = startSpawnPoint;
+    targetPoint = endSpawnPoint;
+}
+
+void _movingWall::ReverseDir()
+{
+    dir = dir * -1;
+    targetPoint = startSpawnPoint;
+}
+
+void _movingWall::MovingWall()// 일단은 한칸씩 움직이기
+{
+    currentSpawnPoint = currentSpawnPoint + dir;
+    if (EndCheck()) {
+        endCnt++;
+        if (endCnt == 2) isEnd = true;
+       
+        ReverseDir();//중간지점 도착
+    }
+}
+
+bool _movingWall::EndCheck()
+{
+    return currentSpawnPoint.x == targetPoint.x 
+        && currentSpawnPoint.y == targetPoint.y;
+}
+
+void _movingWall::EndEvent()
+{
+    delete this;
+}
 

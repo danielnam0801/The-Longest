@@ -11,11 +11,11 @@ bool SnakeManager::Init()
 	
 	this->snakeHead = new Snake;
 	snakeHead->isHead = true;
-	POINT headStartPoint = POINT{10,10};
+	POS headStartPoint = POS{10,10};
 	snakeHead->Init(headStartPoint, OBJECT_TYPE::SNAKE_HEAD_UP);
 
 	this->snakeTail = new Snake;
-	POINT tailStartPoint = POINT{11,10};
+	POS tailStartPoint = POS{11,10};
 	snakeTail->Init(tailStartPoint, OBJECT_TYPE::SNAKE_TAIL_UP);
 	snakeTail->next = nullptr;
 
@@ -38,7 +38,7 @@ void SnakeManager::CreateSnakeParts()
 	tail->next = nullptr; // 꼬리이기에 다음것은 비워둠
 }
 
-void SnakeManager::SetRender(POINT pos, OBJECT_TYPE type)
+void SnakeManager::SetRender(POS pos, OBJECT_TYPE type)
 {
 	currentStage->SetBlock(pos.x, pos.y, type);
 }
@@ -78,7 +78,7 @@ void SnakeManager::SetRotate(Snake* currentSnake)
 	}
 }
 
-void SnakeManager::CheckItem(POINT pos)
+void SnakeManager::CheckItem(POS pos)
 {
 	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::ITEM_APPLE) {
 		CreateSnakeParts();
@@ -86,9 +86,12 @@ void SnakeManager::CheckItem(POINT pos)
 	}
 }
 
-void SnakeManager::CheckCrash(POINT pos)
+void SnakeManager::CheckCrash(POS pos)
 {
-	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::Wall) {
+	//나중에 비트연산으로 바꿔줘야함
+	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::Wall ||
+		currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::SNAKE_BODY)
+	{
 		
 		//게임 종료
 		snakeActive = false;

@@ -25,10 +25,10 @@ public:
 public:
 	bool Init();
 	void CreateSnakeParts();
-	void SetRender(POINT pos, OBJECT_TYPE type);
+	void SetRender(POS pos, OBJECT_TYPE type);
 	void SetRotate(Snake*);
-	void CheckItem(POINT pos);
-	void CheckCrash(POINT pos);
+	void CheckItem(POS pos);
+	void CheckCrash(POS pos);
 	void DieEvent();
 	void DeleteALL();
 	void OneTimeRender();

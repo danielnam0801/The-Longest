@@ -3,6 +3,7 @@
 #include "console.h"
 #include "MapManager.h"
 #include "SnakeManager.h"
+#include "SpawnManager.h"
 #include "Objects.h"
 
 using namespace std;
@@ -17,6 +18,8 @@ bool Core::Init()
 	if (!MapManager::GetInst()->Init())
 		return false;
 	if (!SnakeManager::GetInst()->Init())
+		return false;	
+	if (!SpawnManager::GetInst()->Init())
 		return false;
 
 	system("ShakeDefense");
@@ -31,6 +34,8 @@ void Core::Run()
 	system("cls");
 	while (true) {
 		if (menuNum >= 2) break;
+		
+		SpawnManager::GetInst()->Run();
 		MapManager::GetInst()->Run(menuNum - 1);
 	}
 }

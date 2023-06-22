@@ -22,6 +22,22 @@ enum class OBJECT_TYPE {
 	BreakWall = '$',
 	SNAKE_DIE = '-',
 	SNAKE_DIE_HEAD = '_'
-
 };
+
+typedef struct _tagpos {
+	int x;
+	int y;
+	_tagpos operator*(const int& num) {
+		_tagpos nPos;
+		nPos.x = num * x;
+		nPos.y = num * y;
+		return nPos;
+	}
+	_tagpos operator+(const _tagpos& other) {
+		_tagpos nPos;
+		nPos.x = other.x + x;
+		nPos.y = other.y + y;
+		return nPos;
+	}
+}POS, * PPOS;
 
