@@ -13,6 +13,7 @@ private:
 private:
 	static SpawnManager* m_pInst;
 private:
+	MovingWall* currentWall = nullptr;
 	std::vector<MovingWall> walls;
 public:
 	static SpawnManager* GetInst()
@@ -37,7 +38,8 @@ public:
 	void Run();
 	void SpawnWall();
 	void SpawnApple();
-	void WallControl(std::vector<MovingWall>& walls);
+	//void WallControl(std::vector<MovingWall>& walls);
+	void WallControl(MovingWall*);
 	int RandomXPoint();
 	int RandomYPoint();
 };

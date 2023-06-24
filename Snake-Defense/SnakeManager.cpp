@@ -10,17 +10,20 @@ bool SnakeManager::Init()
 	currentStage = MapManager::GetInst()->GetStage();
 	
 	this->snakeHead = new Snake;
-	snakeHead->isHead = true;
 	POS headStartPoint = POS{10,10};
 	snakeHead->Init(headStartPoint, OBJECT_TYPE::SNAKE_HEAD_UP);
+	snakeHead->isHead = true;
+	snakeHead->front = nullptr;
 
 	this->snakeTail = new Snake;
 	POS tailStartPoint = POS{11,10};
 	snakeTail->Init(tailStartPoint, OBJECT_TYPE::SNAKE_TAIL_UP);
 	snakeTail->next = nullptr;
+	snakeTail->front = snakeHead;
 
 	this->snakeHead->next = snakeTail;
-	this->snakeTail->front = snakeHead;
+	snakeHead->MoveNext();
+
 	return true;
 }
 
@@ -86,13 +89,13 @@ void SnakeManager::CheckItem(POS pos)
 	}
 }
 
-void SnakeManager::CheckCrash(POS pos)
+bool SnakeManager::CheckCrashHead(POS pos)
 {
 	//나중에 비트연산으로 바꿔줘야함
 	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::Wall ||
+		currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::BreakWall ||
 		currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::SNAKE_BODY)
 	{
-		
 		//게임 종료
 		snakeActive = false;
 		SetRender(snakeHead->currentPos, OBJECT_TYPE::BreakWall);
@@ -105,12 +108,24 @@ void SnakeManager::CheckCrash(POS pos)
 
 		snakeHead->SetPosToBeforePos();
 		snakeHead->DieEffect();
+
+		return true;
 	}
+	return false;
+}
+
+
+void SnakeManager::FindCrashSnake(POS pos)
+{
+	snakeHead->CrashCheckThis(pos);
 }
 
 void SnakeManager::DieEvent()
 {
-	Sleep(10000);
+	if (snakeActive == false) { //진짜 죽은거
+		Gotoxy(0, 0);
+		Core::GetInstance()->IsGameDone = true;
+	}
 }
 
 void SnakeManager::DeleteALL()
@@ -124,12 +139,22 @@ void SnakeManager::DeleteALL()
 
 void SnakeManager::OneTimeRender()
 {
-	system("cls");
+	Gotoxy(0, 0);
 	currentStage->Render();
 }
 
-void SnakeManager::Run() {
+int SnakeManager::GetLength()
+{
+	snakeLength = 0;
+	snakeHead->ActiveCount();
+	return snakeLength;
+}
 
-	snakeHead->MoveNext();
+
+void SnakeManager::Run() {
+	moveCnt++;
+	if (moveCnt < 17) return;
+	moveCnt = 0;
+	if(!snakeHead->MoveNext()) return;
 	SetRender(snakeTail->beforePos, OBJECT_TYPE::Blank);
 }

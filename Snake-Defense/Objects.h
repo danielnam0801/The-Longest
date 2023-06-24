@@ -1,8 +1,13 @@
 #pragma once
 #include "define.h"
+#include <chrono>
+#include <time.h>
+#include <ctime>
+
 class Snake {
 public:
 	bool isHead = false;
+	bool isCrash = false;
 	OBJECT_TYPE type;
 	POS currentDir;
 	POS beforeDir;
@@ -12,10 +17,13 @@ public:
 	Snake* next;
 public:
 	void Init(POS, OBJECT_TYPE);
-	void MoveNext();
+	bool MoveNext();
+	void ActiveCount();
 	void SetType(OBJECT_TYPE);
 	void SetPos(int x, int y);
 	void SetPosToBeforePos();
+	void CrashCheckThis(POS);
+	void DestroyThisAndChild();
 	void DieEffect();
 };
 
@@ -24,6 +32,9 @@ public:
 	bool canChangeDir = false;
 	bool isEnd = false;
 	int endCnt = 0;
+	int timeCheck = 0;
+	int movingCnt = 0;
+	int callCnt = 0;
 	POS startSpawnPoint;
 	POS endSpawnPoint;
 	POS currentSpawnPoint;
@@ -33,6 +44,7 @@ public:
 	void SpawnInit();
 	void ReverseDir();
 	void MovingWall();
+	void CollisionCheck();
 	bool EndCheck();
 	void EndEvent();
 }MovingWall, *PMovingWall;

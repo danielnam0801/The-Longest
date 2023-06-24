@@ -18,7 +18,10 @@ public:
 		SAFE_DELETE(m_pInst);
 	}
 public:
+	bool IsGameDone;
+public:
 	bool Init();
 	void Run();
 	int MenuDraw();
+	bool DieUI();
 };

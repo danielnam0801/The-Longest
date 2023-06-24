@@ -39,5 +39,16 @@ typedef struct _tagpos {
 		nPos.y = other.y + y;
 		return nPos;
 	}
+
+	_tagpos operator-(const _tagpos& other) {
+		_tagpos nPos;
+		nPos.x = other.x - x;
+		nPos.y = other.y - y;
+		return nPos;
+	}
+
+	bool operator==(const _tagpos& other) {
+		return other.x == x && other.y == y;
+	}
 }POS, * PPOS;
 

@@ -12,6 +12,9 @@ SpawnManager::~SpawnManager()
 
 bool SpawnManager::Init()
 {
+	if (currentWall != nullptr)
+		delete currentWall;
+	currentWall = nullptr;
 	return true;
 }
 
@@ -20,14 +23,14 @@ void SpawnManager::Run()
 	currentTime = time(NULL);
 	SpawnWall();
 	SpawnApple();
-	//WallControl(walls);
+	WallControl(currentWall);
 }
 
 void SpawnManager::SpawnWall()
 {
-	if ((float)(currentTime - twallSpawnTime) > wallSpawnCool) {
+	if ((float)(currentTime - twallSpawnTime) > wallSpawnCool && currentWall == nullptr) {
 		twallSpawnTime = time(NULL);
-		MovingWall movingWall;
+		MovingWall* movingWall = new MovingWall;
 		
 		int RandXORY = rand() % 2;
 		int dir = rand() % 2;
@@ -36,29 +39,30 @@ void SpawnManager::SpawnWall()
 			int randXPos = RandomXPoint();
 			if (dir == 0) { //아래에서 위쪽
 
-				movingWall.startSpawnPoint = POS{ randXPos, MAP_Y - 1};
-				movingWall.endSpawnPoint = POS{ randXPos, 0 };
+				movingWall->startSpawnPoint = POS{ randXPos, MAP_Y - 1};
+				movingWall->endSpawnPoint = POS{ randXPos, 0 };
 			}
 			else{ // 위쪽에서 아래에서
-				movingWall.startSpawnPoint = POS{ randXPos, 0 };
-				movingWall.endSpawnPoint = POS{ randXPos, MAP_Y - 1};
+				movingWall->startSpawnPoint = POS{ randXPos, 0 };
+				movingWall->endSpawnPoint = POS{ randXPos, MAP_Y - 1};
 			}
 		}
 		else {//Y
 			int randYPos = RandomYPoint();
 			if (dir == 0) { //왼쪽에서 오른쪽
 
-				movingWall.startSpawnPoint = POS{ 0, randYPos };
-				movingWall.endSpawnPoint = POS{ MAP_X - 1, randYPos };
+				movingWall->startSpawnPoint = POS{ 0, randYPos };
+				movingWall->endSpawnPoint = POS{ MAP_X - 1, randYPos };
 			}
 			else { // 오른쪽에서 왼쪽
-				movingWall.startSpawnPoint = POS{ MAP_X - 1, randYPos };
-				movingWall.endSpawnPoint = POS{ 0, randYPos };
+				movingWall->startSpawnPoint = POS{ MAP_X - 1, randYPos };
+				movingWall->endSpawnPoint = POS{ 0, randYPos };
 			}
 		}
 
-		movingWall.SpawnInit();
-		walls.push_back(movingWall);
+		movingWall->SpawnInit();
+		currentWall = movingWall;
+		//walls.push_back(movingWall);
 	}
 }
 
@@ -73,21 +77,15 @@ void SpawnManager::SpawnApple()
 	}
 }
 
-void SpawnManager::WallControl(std::vector<MovingWall>& walls)
+void SpawnManager::WallControl(MovingWall* wall)
 {
-	if (walls.size() == 0) return;
-
-	std::vector<MovingWall>::iterator iter;
-	for (iter = walls.begin(); iter != walls.end(); ) {
-		if (iter->isEnd) {
-			iter->EndEvent();
-			iter = walls.erase(iter);
-		}
-		else {
-			iter->MovingWall();
-			iter++;
-		}
+	if (wall == nullptr) return;
+	
+	if (wall->isEnd) {
+		wall->EndEvent();
+		currentWall = nullptr;
 	}
+	else wall->MovingWall();
 }
 
 int SpawnManager::RandomXPoint()

@@ -34,7 +34,7 @@ void MapManager::Run(int _iCurStage)
 {
 	m_iCurStage = _iCurStage;
 
-	Gotoxy(0, 0);	
+	Gotoxy(0, 0);
 	SnakeManager::GetInst()->Run();
 	m_pStage[_iCurStage]->Render();
 }

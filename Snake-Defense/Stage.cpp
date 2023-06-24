@@ -72,11 +72,15 @@ void Stage::Render()
 				std::cout << "¢º";
 			}
 			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::ITEM_APPLE)) {
+				
+				SetColor((int)COLOR::RED, (int)COLOR::BLACK);
 				std::cout << "¢¾";
 			}
 			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::Wall)) {
+				//SetColor((int)COLOR::BLACK, (int)COLOR::WHITE);
 				std::cout << "¡á";
 			}else if (m_cStage[i][j] == (char)(OBJECT_TYPE::BreakWall)) {
+				//SetColor((int)COLOR::BLACK, (int)COLOR::WHITE);
 				std::cout << "¢Ì";
 			}
 			else if (m_cStage[i][j] == (char)(OBJECT_TYPE::SNAKE_DIE)) {\
