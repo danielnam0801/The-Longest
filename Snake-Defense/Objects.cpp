@@ -6,7 +6,7 @@ using namespace std::chrono;
 POS Normalize(const POS& pos);
 float Length(POS pos);
 float easeOutSine(float x);
-float easeInCirc(float x);
+float easeInExpo(float x);
 
 void Snake::SetType(OBJECT_TYPE snakeType)
 {
@@ -144,8 +144,7 @@ bool Snake::MoveNext()
             if(currentDir.x != 1)
                 currentDir = POS{ -1, 0 };
         } 
-        currentPos = POS{ currentPos.x + currentDir.x,
-                            currentPos.y + currentDir.y};
+        currentPos = currentPos + currentDir;
 
         SnakeManager::GetInst()->CheckItem(currentPos);
         if (SnakeManager::GetInst()->CheckCrashHead(currentPos)) {
@@ -211,9 +210,9 @@ void _movingWall::MovingWall()// 일단은 한칸씩 움직이기
 
     int time = 0;
     if(endCnt == 0)
-        time = 3 / easeInCirc((float)movingCnt / (float)MAP_Y/2);
+        time = 3 / easeInExpo((float)movingCnt / (float)MAP_Y/2);
     else {
-        time =  7 / easeInCirc((float)movingCnt / (float)MAP_Y/2);
+        time =  7 / easeInExpo((float)movingCnt / (float)MAP_Y/2);
     }
     timeCheck = time;
 
@@ -251,7 +250,6 @@ void _movingWall::MovingWall()// 일단은 한칸씩 움직이기
 void _movingWall::CollisionCheck()
 {
     char a = MapManager::GetInst()->GetStage()->GetBlock(currentSpawnPoint.x, currentSpawnPoint.y);
-    //나중에 좀 더 깔끔하게 할 수 있는 방법을 찾아봐야함
     if (a == (char)OBJECT_TYPE::SNAKE_BODY || 
         a == (char)OBJECT_TYPE::SNAKE_HEAD_DOWN || 
         a == (char)OBJECT_TYPE::SNAKE_HEAD_LEFT ||
@@ -296,6 +294,6 @@ float easeOutSine(float x){
   return sin((x * PI) / 2);
 }
 
-float easeInCirc(float x){
+float easeInExpo(float x){
     return x == 1 ? 1 : 1 - pow(2, -10 * x);
 }
