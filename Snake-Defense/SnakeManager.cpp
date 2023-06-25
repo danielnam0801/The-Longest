@@ -83,7 +83,8 @@ void SnakeManager::SetRotate(Snake* currentSnake)
 
 void SnakeManager::CheckItem(POS pos)
 {
-	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::ITEM_APPLE) {
+	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::ITEM_APPLE ||
+		currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::SNAKE_DIE) {
 		CreateSnakeParts();
 		//sound플레이등..
 	}
