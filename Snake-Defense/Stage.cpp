@@ -4,15 +4,6 @@
 #include <iostream>
 using namespace std;
 
-Stage::Stage()
-{
-
-}
-
-Stage::~Stage()
-{
-
-}
 
 char Stage::GetBlock(int x, int y)
 {

@@ -2,6 +2,8 @@
 #include "Stage.h"
 #include "console.h"
 #include "SnakeManager.h"
+#include "define.h"
+
 MapManager* MapManager::m_pInst = nullptr;
 MapManager::MapManager()
 	: m_iCurStage(0)
@@ -34,7 +36,8 @@ void MapManager::Run(int _iCurStage)
 {
 	m_iCurStage = _iCurStage;
 
-	Gotoxy(0, 0);
+	SetCursorPosition(0, 0);
 	SnakeManager::GetInst()->Run();
+
 	m_pStage[_iCurStage]->Render();
 }

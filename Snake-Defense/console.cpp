@@ -1,4 +1,5 @@
 #include "console.h"
+
 static HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 void FullScreen()
 {
@@ -6,28 +7,14 @@ void FullScreen()
 	SetConsoleDisplayMode(hOut, CONSOLE_FULLSCREEN_MODE, NULL);
 }
 
-void Gotoxy(int x, int y)
+void SetCursorPosition(int x, int y)
 {
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD Cur = { x, y };
 	SetConsoleCursorPosition(hOut, Cur);
 }
 
-void Gotoxyplayer(int x, int y)
-{
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD Cur = { x * 2, y };
-	SetConsoleCursorPosition(hOut, Cur);
-}
-
-BOOL Gotoxytest(int x, int y)
-{
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD Cur = { x, y };
-	return SetConsoleCursorPosition(hOut, Cur);
-}
-
-void Cursorset(bool _bVis, DWORD _dwSize)
+void SetCursor(bool _bVis, DWORD _dwSize)
 {
 	CONSOLE_CURSOR_INFO info;
 	info.bVisible = _bVis;
@@ -57,8 +44,7 @@ int GetbgColor()
 	return color;
 }
 
-
-void fontsize(UINT _weight, UINT _sizex, UINT _sizey)
+void SetFontSize(UINT _weight, UINT _sizex, UINT _sizey)
 {
 	static CONSOLE_FONT_INFOEX font;
 	font.cbSize = sizeof(font);

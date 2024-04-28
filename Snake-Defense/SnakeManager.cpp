@@ -1,22 +1,22 @@
 #include "SnakeManager.h"
+#include "MapManager.h"
+#include "Pos.h"
 #include <conio.h>
-SnakeManager* SnakeManager::m_pInst = nullptr;
 
+SnakeManager* SnakeManager::m_pInst = nullptr;
 bool SnakeManager::Init()
 {	
-	if (MapManager::GetInst() == nullptr) return false;
-	
 	snakeActive = true;
 	currentStage = MapManager::GetInst()->GetStage();
 	
 	this->snakeHead = new Snake;
-	POS headStartPoint = POS{10,10};
+	Pos headStartPoint = Pos{10,10};
 	snakeHead->Init(headStartPoint, OBJECT_TYPE::SNAKE_HEAD_UP);
 	snakeHead->isHead = true;
 	snakeHead->front = nullptr;
 
 	this->snakeTail = new Snake;
-	POS tailStartPoint = POS{11,10};
+	Pos tailStartPoint = Pos{11,10};
 	snakeTail->Init(tailStartPoint, OBJECT_TYPE::SNAKE_TAIL_UP);
 	snakeTail->next = nullptr;
 	snakeTail->front = snakeHead;
@@ -41,7 +41,7 @@ void SnakeManager::CreateSnakeParts()
 	tail->next = nullptr; // 꼬리이기에 다음것은 비워둠
 }
 
-void SnakeManager::SetRender(POS pos, OBJECT_TYPE type)
+void SnakeManager::SetRender(Pos pos, OBJECT_TYPE type)
 {
 	currentStage->SetBlock(pos.x, pos.y, type);
 }
@@ -81,7 +81,7 @@ void SnakeManager::SetRotate(Snake* currentSnake)
 	}
 }
 
-void SnakeManager::CheckItem(POS pos)
+void SnakeManager::CheckItem(Pos pos)
 {
 	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::ITEM_APPLE ||
 		currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::SNAKE_DIE) {
@@ -90,7 +90,7 @@ void SnakeManager::CheckItem(POS pos)
 	}
 }
 
-bool SnakeManager::CheckCrashHead(POS pos)
+bool SnakeManager::CheckCrashHead(Pos pos)
 {
 	//나중에 비트연산으로 바꿔줘야함
 	if (currentStage->GetBlock(pos.x, pos.y) == (char)OBJECT_TYPE::Wall ||
@@ -116,7 +116,7 @@ bool SnakeManager::CheckCrashHead(POS pos)
 }
 
 
-void SnakeManager::FindCrashSnake(POS pos)
+void SnakeManager::FindCrashSnake(Pos pos)
 {
 	snakeHead->CrashCheckThis(pos);
 }
@@ -124,7 +124,7 @@ void SnakeManager::FindCrashSnake(POS pos)
 void SnakeManager::DieEvent()
 {
 	if (snakeActive == false) { //진짜 죽은거
-		Gotoxy(0, 0);
+		SetCursorPosition(0, 0);
 		Core::GetInstance()->IsGameDone = true;
 	}
 }
@@ -140,7 +140,7 @@ void SnakeManager::DeleteALL()
 
 void SnakeManager::OneTimeRender()
 {
-	Gotoxy(0, 0);
+	SetCursorPosition(0, 0);
 	currentStage->Render();
 }
 
@@ -153,7 +153,7 @@ int SnakeManager::GetLength()
 
 
 void SnakeManager::Run() {
-	moveCnt++;
+	moveCnt+= 9;
 	if (moveCnt < 17) return;
 	moveCnt = 0;
 	if(!snakeHead->MoveNext()) return;

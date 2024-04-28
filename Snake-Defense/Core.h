@@ -22,6 +22,6 @@ public:
 public:
 	bool Init();
 	void Run();
-	int MenuDraw();
-	bool DieUI();
+private:
+	bool ReGame();
 };

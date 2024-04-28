@@ -1,17 +1,20 @@
 #pragma once
 #include"define.h"
 #include "console.h"
-#include"Objects.h"
 #include "MapManager.h"
 #include "Stage.h"
 #include "Core.h"
+#include "Snake.h"
+#include "Pos.h"
 
-class SnakeManager {
+class SnakeManager : Manager {
 private:
 	static SnakeManager* m_pInst;
-	Stage* currentStage;
+private:
+	Stage * currentStage;
 	int moveCnt = 0;
 public:
+	bool Init() override;
 	static SnakeManager* GetInst()
 	{
 		if (m_pInst == nullptr)
@@ -27,16 +30,17 @@ public:
 	bool snakeActive;
 	int snakeLength = 0;
 public:
-	bool Init();
 	void CreateSnakeParts();
-	void SetRender(POS pos, OBJECT_TYPE type);
+	void SetRender(Pos pos, OBJECT_TYPE type);
 	void SetRotate(Snake*);
-	void CheckItem(POS pos);
-	bool CheckCrashHead(POS pos);
-	void FindCrashSnake(POS pos);
+	void CheckItem(Pos pos);
+	bool CheckCrashHead(Pos pos);
+	void FindCrashSnake(Pos pos);
 	void DieEvent();
 	void DeleteALL();
 	void Run();
 	void OneTimeRender();
+public:
+	void AddLength() { snakeLength++; }
 	int GetLength();
 };

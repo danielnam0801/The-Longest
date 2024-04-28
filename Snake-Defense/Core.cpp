@@ -4,10 +4,19 @@
 #include "MapManager.h"
 #include "SnakeManager.h"
 #include "SpawnManager.h"
-#include "Objects.h"
+#include "UI.h"
+
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+
+#ifdef _DEBUG
+#define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#endif
 
 using namespace std;
 Core* Core::m_pInst = nullptr;
+byte* m_pBuffer;
 
 Core::Core() {
 
@@ -16,30 +25,42 @@ Core::Core() {
 bool Core::Init()
 {
 	IsGameDone = false;
-	if (!MapManager::GetInst()->Init())
+	if (MapManager::GetInst()->Init() == false)
 		return false;
-	if (!SpawnManager::GetInst()->Init())
+	if (SpawnManager::GetInst()->Init() == false)
 		return false;	
-	if (!SnakeManager::GetInst()->Init())
+	if (SnakeManager::GetInst()->Init() == false)
 		return false;
 
 	system("ShakeDefense");
 	system("mode con cols=50 lines=30");
-	Cursorset(false, 1);
+	SetCursor(false, 1);
 	return true;
 }
 
 void Core::Run()
 {
-	int menuNum = MenuDraw();
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+
+	byte* buff = new byte[100];
+
+	UI* ui = new UI;
+
+	int menuNum = ui->DrawMenu();
 	system("cls");
+
 	while (true) {
 		if (menuNum >= 2) break;
 		
 		SpawnManager::GetInst()->Run();
 		MapManager::GetInst()->Run(menuNum - 1);
+
 		if (IsGameDone == true) {
-			if (DieUI()) {
+			
+			int maxLength = SnakeManager::GetInst()->GetLength();
+			ui->DisplayDie(maxLength);
+
+			if (ReGame()) {
 				IsGameDone = false;
 				Init();
 			}
@@ -48,34 +69,10 @@ void Core::Run()
 	}
 }
 
-
-int Core::MenuDraw()
+bool Core::ReGame()
 {
-	cout << "1. Play" << endl;
-	cout << "2. Exit" << endl;
-	int iInput;
-	cin >> iInput;
-	return iInput;
+	char reset;
+	cin >> reset;
+	return reset == 'y';
 }
-
-bool Core::DieUI()
-{
-	cout << "뱀 길이 : " << SnakeManager::GetInst()->GetLength() << endl;
-	cout << "==========================================" << endl;
-	cout << "다시 하려면 y를 누르세요!" << endl;
-	cout << "게임을 종료하려면 X를 누르세요..." << endl;
-	cout << "==========================================" << endl;
-
-	while (true) {
-		if (_kbhit) {
-			char ch;	
-			ch = _getch();
-			if (ch == 'x') return false;
-			else if (ch == 'y') return true;
-		}
-	}
-
-	return 0;
-}
-
 

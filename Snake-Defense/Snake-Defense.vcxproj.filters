@@ -14,6 +14,15 @@
     <Filter Include="Object">
       <UniqueIdentifier>{cc6fa757-68c5-47c6-ab56-688749193a1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{0f68f6a1-39a1-4e8f-ab7a-4f453281680a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Etc">
+      <UniqueIdentifier>{d7fc17c8-6605-43f6-a750-553577b1e7c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{97ce4549-7179-4071-b13b-7b6a8965858d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -21,9 +30,6 @@
     </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Objects.cpp">
-      <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="SnakeManager.cpp">
       <Filter>Game</Filter>
@@ -40,16 +46,19 @@
     <ClCompile Include="SpawnManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Snake.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingWall.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="define.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Core.h">
       <Filter>Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Objects.h">
-      <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="console.h">
       <Filter>Game</Filter>
@@ -65,6 +74,30 @@
     </ClInclude>
     <ClInclude Include="SpawnManager.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Ease.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Snake.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingWall.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>Etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Pos.h">
+      <Filter>Etc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

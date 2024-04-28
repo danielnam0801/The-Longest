@@ -1,5 +1,6 @@
 #pragma once
 #include<Windows.h>
+
 enum class COLOR
 {
 	BLACK, BLUE, GREEN, SKYBLUE, RED,
@@ -7,12 +8,11 @@ enum class COLOR
 	LIGHT_GREEN, MINT, LIGHT_RED, LIGTH_VIOLET,
 	LIGHT_YELLOW, WHITE
 };
+
 void FullScreen();
-void Gotoxy(int, int);
-void Gotoxyplayer(int, int);
-BOOL Gotoxytest(int, int);
-void Cursorset(bool, DWORD);
+void SetCursorPosition(int, int);
+void SetCursor(bool, DWORD);
 void SetColor(int color, int bgcolor);
 int GetColor();
 int GetbgColor();
-void fontsize(UINT _weight, UINT _sizex, UINT _sizey);
+void SetFontSize(UINT _weight, UINT _sizex, UINT _sizey);

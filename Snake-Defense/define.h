@@ -5,6 +5,7 @@
 #define MAP_Y 20
 #define MAP_X 20
 #define STAGE_MAX_COUNT 1
+const double PI = 3.1415926;
 
 enum class OBJECT_TYPE {
 	Blank = '0',
@@ -23,32 +24,3 @@ enum class OBJECT_TYPE {
 	SNAKE_DIE = '-',
 	SNAKE_DIE_HEAD = '_'
 };
-
-typedef struct _tagpos {
-	int x;
-	int y;
-	_tagpos operator*(const int& num) {
-		_tagpos nPos;
-		nPos.x = num * x;
-		nPos.y = num * y;
-		return nPos;
-	}
-	_tagpos operator+(const _tagpos& other) {
-		_tagpos nPos;
-		nPos.x = other.x + x;
-		nPos.y = other.y + y;
-		return nPos;
-	}
-
-	_tagpos operator-(const _tagpos& other) {
-		_tagpos nPos;
-		nPos.x = other.x - x;
-		nPos.y = other.y - y;
-		return nPos;
-	}
-
-	bool operator==(const _tagpos& other) {
-		return other.x == x && other.y == y;
-	}
-}POS, * PPOS;
-

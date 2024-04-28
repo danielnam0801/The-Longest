@@ -1,7 +1,9 @@
 #pragma once
-#include"define.h"
+#include "define.h"
+#include "Manager.h"
+
 class Stage;
-class MapManager
+class MapManager : Manager
 {
 private:
 	MapManager();
@@ -22,9 +24,12 @@ public:
 private:
 	Stage* m_pStage[STAGE_MAX_COUNT];
 	int m_iCurStage;
+
 public:
 	Stage* GetStage() { return m_pStage[m_iCurStage]; }
+
 public:
-	bool Init();
 	void Run(int _iCurStage);
+	bool Init() override;
+	
 };

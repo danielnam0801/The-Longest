@@ -1,8 +1,11 @@
 #include "SpawnManager.h"
+#include "MapManager.h"
+#include "Pos.h"
+#include "define.h"
 
 SpawnManager* SpawnManager::m_pInst = nullptr;
-
-SpawnManager::SpawnManager() {
+SpawnManager::SpawnManager() 
+{
 
 }
 
@@ -12,9 +15,7 @@ SpawnManager::~SpawnManager()
 
 bool SpawnManager::Init()
 {
-	if (currentWall != nullptr)
-		delete currentWall;
-	currentWall = nullptr;
+	SAFE_DELETE(currentWall);
 	return true;
 }
 
@@ -29,51 +30,60 @@ void SpawnManager::Run()
 void SpawnManager::SpawnWall()
 {
 	if ((float)(currentTime - twallSpawnTime) > wallSpawnCool && currentWall == nullptr) {
+		
 		twallSpawnTime = time(NULL);
 		MovingWall* movingWall = new MovingWall;
 		
 		int RandXORY = rand() % 2;
 		int dir = rand() % 2;
+
 		if (RandXORY == 0) { // RandomXPos
 
 			int randXPos = RandomXPoint();
-			if (dir == 0) { //아래에서 위쪽
-
-				movingWall->startSpawnPoint = POS{ randXPos, MAP_Y - 1};
-				movingWall->endSpawnPoint = POS{ randXPos, 0 };
+			if (dir == 0)	//아래에서 위쪽
+			{ 
+				movingWall->startSpawnPoint = Pos{ randXPos, MAP_Y - 1};
+				movingWall->endSpawnPoint = Pos{ randXPos, 0 };
 			}
-			else{ // 위쪽에서 아래에서
-				movingWall->startSpawnPoint = POS{ randXPos, 0 };
-				movingWall->endSpawnPoint = POS{ randXPos, MAP_Y - 1};
+			else //위쪽에서 아래
+			{
+				movingWall->startSpawnPoint = Pos{ randXPos, 0 };
+				movingWall->endSpawnPoint = Pos{ randXPos, MAP_Y - 1};
 			}
 		}
-		else {//Y
+		else 
+		{
 			int randYPos = RandomYPoint();
-			if (dir == 0) { //왼쪽에서 오른쪽
 
-				movingWall->startSpawnPoint = POS{ 0, randYPos };
-				movingWall->endSpawnPoint = POS{ MAP_X - 1, randYPos };
+			if (dir == 0)	//왼쪽에서 오른쪽
+			{
+				movingWall->startSpawnPoint = Pos{ 0, randYPos };
+				movingWall->endSpawnPoint = Pos{ MAP_X - 1, randYPos };
 			}
-			else { // 오른쪽에서 왼쪽
-				movingWall->startSpawnPoint = POS{ MAP_X - 1, randYPos };
-				movingWall->endSpawnPoint = POS{ 0, randYPos };
-			}
+			else    // 오른쪽에서 왼쪽
+			{
+				movingWall->startSpawnPoint = Pos{ MAP_X - 1, randYPos };
+				movingWall->endSpawnPoint = Pos{ 0, randYPos };
+			}	
 		}
 
 		movingWall->SpawnInit();
 		currentWall = movingWall;
-		//walls.push_back(movingWall);
 	}
 }
 
 void SpawnManager::SpawnApple()
 {
-	if ((float)(currentTime - tappleSpawnTime) > spawnAppleCool) {
+	if ((float)(currentTime - tappleSpawnTime) > spawnAppleCool/3)
+	{
+	
 		tappleSpawnTime = time(NULL);
 		int randX = RandomXPoint();
 		int randY = RandomYPoint();
 
-		MapManager::GetInst()->GetStage()->SetBlock(randX, randY, OBJECT_TYPE::ITEM_APPLE);;
+		MapManager::GetInst()
+			->GetStage()
+			->SetBlock(randX, randY, OBJECT_TYPE::ITEM_APPLE);;
 	}
 }
 
@@ -85,7 +95,7 @@ void SpawnManager::WallControl(MovingWall* wall)
 		wall->EndEvent();
 		currentWall = nullptr;
 	}
-	else wall->MovingWall();
+	else wall->Moving();
 }
 
 int SpawnManager::RandomXPoint()
